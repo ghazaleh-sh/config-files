@@ -3,11 +3,11 @@
 v1API:  /resources
 server:
   port: 8516
-  servlet:
-    context-path: /avatar-api
 ###############################__DATABASE
 
 spring:
+  webflux:
+    base-path: /avatar-api
   profiles:
     include:
       security
