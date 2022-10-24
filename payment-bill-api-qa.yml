@@ -1,0 +1,83 @@
+server:
+  port: 8517
+  servlet:
+    context-path: /api/payment-bill
+
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DB2Dialect
+        format_sql: true
+        default_schema: db2inst1
+  datasource:
+    url: jdbc:db2://192.168.97.134:50000/BMI_API
+    username: db2inst1
+    password: 123456
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+
+
+sadad:
+  psp:
+    base-url: https://sadad.shaparak.ir/api/v0
+    payment:
+      init-address: /Request/PaymentRequest
+      verify-address: /Advice/Verify
+    merchant-id: "000000140336994"
+    terminal-id: "24095735"
+    return-url: "www.sample.com/returnedPage"
+    tripleDesKey: "tItCjTOXxbN72CYfwd08e2X/m6/Ny7wx"
+
+ipg:
+  request_token:
+    url: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources/ipg/billRequest
+  verify_payment:
+    url: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources/ipg/verify
+
+
+tripleDesKey: tItCjTOXxbN72CYfwd08e2X/m6/Ny7wx
+
+invoice:
+  terminalId: "24095735"
+  merchantId: "000000140336994"
+  returnUrl: https://www.sadad.co.ir/returnedPage
+
+#  ticketVerificationUrl=http://sso:9080/session-manager/devices/verify
+#  tokenServerURL=http://sso:9080/identity/oauth2/auth/token
+#  authorizationPrefix=Basic a2V5OnNlY3JldA==
+#  scope=device-session-verification
+
+secretKeyLocation: /opt/configs/payment-bill
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+###############################__SSO
+bmi.oauth2.excluded-urls:
+  /invoice/swagger-ui/**:*,
+  /swagger-ui/**:*,
+  /api/payment-bill/api.html:*,
+  /api.html:*,
+  /v3/**:*,
+  /h2/**:*,
+  /swagger-ui.html:*,
+  /webjars/**:*,
+  /v2/**:*,
+  /swagger-resources/**:*,
+  /invoice:PUT,
+  /invoice/id:GET,
+  /invoice/oldRegister:*,
+  /invoice/ipg-bill-payment:*,
+  /invoice/bill-inquiry:*,
+  /invoice/payment-inquiry:*
+
+
+old-registration:
+  userId: "158"
+  cellPhone: "989357376999"
+  serialId: "5700cd58-3cd6-4ce3-81ff-ee519e1f6df7"

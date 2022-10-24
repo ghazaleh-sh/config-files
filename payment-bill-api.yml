@@ -1,0 +1,80 @@
+server:
+  port: 8517
+  servlet:
+    context-path: /api/payment-bill
+
+spring:
+  profiles:
+    include:
+      security
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DB2Dialect
+        format_sql: true
+        default_schema: ${db.default_schema}
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+
+
+sadad:
+  psp:
+    base-url: ${psp.base-url}/api/v0
+    payment:
+      init-address: /Request/PaymentRequest
+      verify-address: /Advice/Verify
+    merchant-id: ${psp.merchant-id}
+    terminal-id: ${psp.terminal-id}
+    return-url: "www.sample.com/returnedPage"
+    tripleDesKey: ${psp.tripleDesKey}
+
+ipg:
+  request_token:
+    url: ${ipg.base-url}/psp-payment-gateway/resources/ipg/billRequest
+  verify_payment:
+    url: ${ipg.base-url}/psp-payment-gateway/resources/ipg/verify
+
+
+tripleDesKey: ${psp.tripleDesKey}
+
+invoice:
+  terminalId: ${psp.terminal-id}
+  merchantId: ${psp.merchant-id}
+  returnUrl: https://www.sadad.co.ir/returnedPage
+
+#  ticketVerificationUrl=http://sso:9080/session-manager/devices/verify
+#  tokenServerURL=http://sso:9080/identity/oauth2/auth/token
+#  authorizationPrefix=Basic a2V5OnNlY3JldA==
+#  scope=device-session-verification
+
+secretKeyLocation: /opt/configs/payment-bill
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+###############################__SSO
+bmi.oauth2.excluded-urls:
+  /invoice/swagger-ui/**:*,
+  /swagger-ui/**:*,
+  /api/payment-bill/api.html:*,
+  /api.html:*,
+  /v3/**:*,
+  /h2/**:*,
+  /swagger-ui.html:*,
+  /webjars/**:*,
+  /v2/**:*,
+  /swagger-resources/**:*,
+  /invoice:PUT,
+  /invoice/id:GET,
+  /invoice/oldRegister:*,
+  /invoice/ipg-bill-payment:*,
+  /invoice/bill-inquiry:*,
+  /invoice/payment-inquiry:*

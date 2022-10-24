@@ -1,0 +1,8 @@
+db:
+  url: jdbc:db2://192.168.52.129:50000/ebanking
+  username: db2inst1
+  password: Aa123456
+  default_schema: VERSION_API
+
+log:
+  level: info

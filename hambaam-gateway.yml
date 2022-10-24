@@ -1,0 +1,62 @@
+server:
+  port: 7502
+
+v1API:  /hambaam-gateway/resources
+
+spring:
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      default-filters:
+        - RewritePath=${v1API}(?<segment>/?.*), $\{segment}
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: push-notification
+          uri: http://push-notification-api:9080
+          predicates:
+            - Path=${v1API}/api/push-notification/**
+            - Method=POST
+        #            - Header=Authorization, Basic [0-9a-zA-Z-.]*
+
+        - id: check-version
+          uri: http://check-version:8092
+          predicates:
+            - Path=${v1API}/check-version-api/resources/version/history/**
+            - Method=GET
+
+        - id: remote-config
+          uri: http://remote-config-srv:8518
+          predicates:
+            - Path=${v1API}/remote-config/resources/**
+            - Method=GET
+
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+scopes:
+  push-notification-secure: "customer-super"
+
+permit:
+  routes: "/hambaam-gateway/resources/remote-config/**;/hambaam-gateway/resources/check-version-api/**"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    reactor.netty.http.client: DEBUG
+
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+secretKeyLocation: /opt/configs/hambaam-gateway

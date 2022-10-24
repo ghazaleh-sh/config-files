@@ -1,0 +1,22 @@
+db:
+  url: jdbc:db2://192.168.97.134:50000/BMI_API
+  username: db2inst1
+  password: 123456
+  default_schema: db2inst1
+
+psp:
+  base-url: https://sadad.shaparak.ir
+  merchant-id: "000000140336994"
+  terminal-id: "24095735"
+  return-url: "www.sample.com/returnedPage"
+  tripleDesKey: "tItCjTOXxbN72CYfwd08e2X/m6/Ny7wx"
+
+ipg:
+  base-url: http://psp-payment-gateway-srv:9080
+
+
+  ## ----for testing-----##
+old-registration:
+  userId: "158"
+  cellPhone: "989357376999"
+  serialId: "5700cd58-3cd6-4ce3-81ff-ee519e1f6df7"

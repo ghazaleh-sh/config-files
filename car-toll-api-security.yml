@@ -1,0 +1,29 @@
+###############################__CAR_TOLL_API_security__###############################
+
+db:
+  username: db2inst1
+  password: 123456
+  url: jdbc:db2://192.168.97.134:50000/BMI_API
+  default_schema: db2inst1
+
+
+log:
+  level: info
+
+
+payment:
+    #   : http://192.168.53.23:9041
+    base_url: http://localhost:2000
+  #185.135.30.10:9443
+    merchant-id: 238
+    terminal-id: 1
+    client-id: "car-toll-fee-client"
+    client-sec: "vE3kB1bT2bE7iE1gB1pI1cF4sJ2hE1eK3pC4fI4eI1"
+
+otp:
+  base_url: http://185.135.30.10:9443
+
+sadad_psp:
+  # http://185.203.160.125:8443
+  base_url: https://customerapi.sadadpsp.ir:8443
+

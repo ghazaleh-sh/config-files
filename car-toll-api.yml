@@ -1,0 +1,128 @@
+###############################__CAR_TOLL_API__###############################
+
+v1API:  /resources
+server:
+  port: 8514
+  servlet:
+    context-path: /car-toll-api
+###############################__DATABASE
+spring:
+  profiles:
+    include:
+      security
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DB2Dialect
+        format_sql: true
+        default_schema: ${db.default_schema}
+
+###############################__Metrics_And_Monitoring
+management:
+  health.redis.enabled: false
+  info.git.mode: full
+  endpoint:
+    health.show-details: always
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints:
+    enabled-by-default: true
+    jmx.exposure.exclude: '*'
+    web.exposure.include: '*'
+  metrics:
+    enable:
+      jvm: true
+      root: true
+    export.prometheus.enabled: true
+
+
+###############################__LOGS
+logging:
+  level:
+    root: ${log.level}
+    hibernate: ${log.level}
+    org.hibernate: ${log.level}
+    org:
+      hibernate:
+        SQL: ${log.level}
+        type.descriptor.sql.BasicBinder: ${log.level}
+      springframework:
+        boot.autoconfigure: ${log.level}
+        web: ${log.level}
+        web.reactive.function.client.ExchangeFunctions: ${log.level}
+      apache.http: ${log.level}
+      zaando.logbook: ${log.level}
+    net.guides: ${log.level}
+    reactor.netty.http.client.HttpClient: ${log.level}
+    io.swagger.models.parameters.AbstractSerializableParameter: ${log.level}
+    tomcat: ${log.level}
+
+###############################__SSO
+bmi.oauth2.excluded-urls: /car-toll-api/swagger-ui/**:*,
+  /swagger-ui/**:*,
+  /car-toll-api/api.html:*,
+  /api.html:*,
+  /car-toll-api/v3/**:*,
+  /v3/**:*,
+  /h2/**:*,
+  /car-toll-api.html:*,
+  /car-toll-api/api.html:*,
+  /naji-api/car-toll-api/api.html:*,
+  /webjars/**:*,
+  /v2/**:*,
+  /swagger-resources/**:*,
+  /actuator/**:*,
+  /trace/**:*,
+  /naji-api/swagger-ui/**:*,
+  /naji-api/api.html:*,
+  /naji-api/v3/**:*,
+  /naji-api.html:*
+
+###############################__CONFIGS
+
+secretKeyLocation: /opt/security/car-toll-api
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+
+payment:
+  wage:
+    path: ${payment.base_url}/services/rest/api/payment
+    merchant-id: ${payment.merchant-id}
+    terminal-id: ${payment.terminal-id}
+    amount: 52000
+    instructed-currency: "IRR"
+    reverse-path : ${payment.base_url}/services/rest/api/payment/reverse
+    client_id: ${payment.client-id}
+    client_sec: ${payment.client-sec}
+    sso_path: ${otp.base_url}/identity/oauth2/auth/token
+    scope: money-transfer
+
+otp:
+  path: ${otp.base_url}/session-manager/authentication/identities/
+
+
+sadad_psp_naji:
+  violation_list: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-list
+  violation_aggregation: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-aggregation
+  violation_image: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-photo
+  access_token: ${sadad_psp.base_url}/api/v1/auth/token
+  user_name: "sadad"
+  password: "s@DAd"
+  orgName: "sco"
+  client_id: "sadadClient"
+  client_secret : "97c252c5a7a942c19cd13dca57bc3523ee6fb02cb92b431daef13863c7d40868"
+  check_shahkar : false
+
+

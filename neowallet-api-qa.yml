@@ -1,0 +1,109 @@
+client:
+  code: 8888
+
+neowallet:
+  base:
+    url: http://172.30.42.70:8002/sam-api/ewallet/v1/transaction
+
+server:
+  port: 9085
+  servlet:
+    context-path: /api/bmi-bam-wallet-api
+
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DB2Dialect
+        format_sql: true
+        default_schema: db2inst1
+  datasource:
+    url: jdbc:db2://192.168.97.134:50000/BMI_API
+    username: db2inst1
+    password: 123456
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+  rabbitmq:
+    host: rabbit-srv
+    port: 5672
+    username: admin
+    password: aDMeEn
+
+sadad:
+  psp:
+    base-url: https://sadad.shaparak.ir/api/v0
+    payment:
+      init-address: /Request/PaymentRequest
+      verify-address: /Advice/Verify
+#    merchant-id: "000000140331692"
+#    terminal-id: "24056544"
+    return-url: "www.sample.com/returnedPage"
+    terminal_id: "24092874"
+    merchant_id: "000000140335540"
+    merchant_key: "hFI5UOwh9PUDbItN4k8/AacrnC5nTrk2"
+
+ipg:
+  request_token:
+    url: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources/ipg/payment-request
+  verify_payment:
+    url: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources/ipg/verify
+  reverse:
+    url: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources/ipg/reverse
+
+user-profile:
+  url: http://neobaam-srv:8099/bampay-registration/resources/profile/wallet-token
+
+rabbitmq:
+  deadletter:
+    queue:
+      name: transaction-dead-letter-queue
+  exchange:
+    name: ex-transaction-queue
+  queue:
+    name: transaction-queue
+  routingkey: transaction
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+##############################__JOBS
+JOB:
+  MAX: 4
+  DURATION : 300000
+  INQURIRY_MAX: 3
+
+###############################__SSO
+bmi.oauth2.excluded-urls:
+  /v0/swagger-ui/**:*,
+  /swagger-ui/**:*,
+  /api/bmi-bam-wallet-api/api.html:*,
+  /api.html:*,
+  /v3/**:*,
+  /h2/**:*,
+  /swagger-ui.html:*,
+  /webjars/**:*,
+  /v2/**:*,
+  /swagger-resources/**:*,
+  /v0:PUT,
+  /v0:GET,
+  /v0/balances:*,
+  /v0/balances/**:*,
+  /v0/edit:*,
+  /v0/charges/in:*,
+  /v0/ipg-charges/in:*,
+  /v0/payments:*,
+  /v0/trusted-payments:*,
+  /v0/transfers:*,
+  /v0/inquiry:*,
+  /v0/withdrawal-permission:*,
+  /v0/deposit-permission:*,
+  /v0/event:*,
+  /v0/statement:*,
+  /v0/refund:*,
+  /v0/debit:*,
+  /v0/credit-inquiry:*
+#  /v0/ipg-final-charges/in:*

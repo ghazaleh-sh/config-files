@@ -1,0 +1,112 @@
+###############################__check-version-api__###############################
+#
+#
+###############################__Context
+v1API:  /resources
+
+server:
+  port: 8092
+  servlet:
+    context-path: /check-version-api
+#
+#
+###############################__Metrics_And_Monitoring
+management:
+  health.redis.enabled: false
+  info.git.mode: full
+  endpoint:
+    health.show-details: always
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints:
+    enabled-by-default: true
+    jmx.exposure.exclude: '*'
+    web.exposure.include: '*'
+  metrics:
+    enable:
+      jvm: true
+      root: true
+    export.prometheus.enabled: true
+
+#
+###############################__Database
+spring:
+  datasource:
+    driverClassName:  com.ibm.db2.jcc.DB2Driver
+#    initialization-mode: always
+    username: db2inst1
+    password: Aa123456
+    url: jdbc:db2://192.168.52.129:50000/ebanking
+  #
+  #
+  ###############################__Spring JPA
+  data:
+    jpa.repositories:
+      enabled: true
+      bootstrap-mode: lazy # for Prod Profile Set default
+  jpa:
+    database-platform: org.hibernate.dialect.DB2Dialect
+    generate-ddl: true
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+        org.hibernate.flushMode: ALWAYS
+        # cache:
+        # use_second_level_cache: true
+        #
+        #
+        ###############################__Hibernate
+        #spring.business.properties.hibernate.default_schema = dev
+        dialect:  org.hibernate.dialect.DB2Dialect
+        default_schema: BAMPAY_REGISTRATION
+        id.new_generator_mappings:  false
+        show-sql: true
+        format_sql: true
+        generate_statistics:  true
+        jdbc.batch_size:  100
+        order_inserts:  true
+#      javax:
+#        persistence.schema-generation:
+#          create-source:  metadata
+#          create-database-schemas: true
+#          scripts:
+#            action: create
+#            create-target:  create.sql
+#            drop-target:  drop.sql
+    hibernate:
+      naming.physical-strategy:  org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate
+  #
+  #
+  ###############################__Logging
+logging:
+  level:
+    root:  ${log.level}
+    hibernate:  ${log.level}
+    org.hibernate:  ${log.level}
+    org:
+      hibernate:
+        SQL: ${log.level}
+        type.descriptor.sql.BasicBinder: ${log.level}
+      springframework:
+        boot.autoconfigure:  ${log.level}
+        web:  ${log.level}
+        web.reactive.function.client.ExchangeFunctions: ${log.level}
+      apache.http:  ${log.level}
+      zaando.logbook: ${log.level}
+    net.guides: ${log.level}
+    reactor.netty.http.client.HttpClient: ${log.level}
+    io.swagger.models.parameters.AbstractSerializableParameter: ${log.level}
+    tomcat: ${log.level}
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+
+checkversion:
+  crud-users-info:
+    ssn: "0079993141-0013376071-2050393989-2050018614"
+    userId: "158"
+
