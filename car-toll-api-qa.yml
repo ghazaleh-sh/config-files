@@ -10,6 +10,8 @@ spring:
   profiles:
     include:
       security
+  http:
+    log-request-details: true
   datasource:
     url: ${db.url}
     username: ${db.username}
@@ -60,10 +62,9 @@ logging:
         web: ${log.level}
         web.reactive.function.client.ExchangeFunctions: ${log.level}
       apache.http: ${log.level}
-      zaando.logbook: ${log.level}
     net.guides: ${log.level}
     reactor.netty.http.client.HttpClient: ${log.level}
-    io.swagger.models.parameters.AbstractSerializableParameter: ${log.level}
+    reactor.netty.http.client: ${log.level}
     tomcat: ${log.level}
 
 ###############################__SSO

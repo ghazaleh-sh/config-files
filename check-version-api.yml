@@ -10,7 +10,6 @@ server:
     context-path: /check-version-api
 #
 #
-
 ###############################__Metrics_And_Monitoring
 management:
   health.redis.enabled: false
@@ -52,13 +51,18 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
+        javax:
+          cache:
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+        cache:
+          use_second_level_cache: true
+          region_prefix: dd_hibernate
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+
         hbm2ddl:
           auto: none
         org.hibernate.flushMode: ALWAYS
-        # cache:
-        # use_second_level_cache: true
-        #
-        #
         ###############################__Hibernate
         #spring.business.properties.hibernate.default_schema = dev
         dialect:  org.hibernate.dialect.DB2Dialect
@@ -69,14 +73,12 @@ spring:
         generate_statistics:  true
         jdbc.batch_size:  100
         order_inserts:  true
-    #      javax:
-    #        persistence.schema-generation:
-    #          create-source:  metadata
-    #          create-database-schemas: true
-    #          scripts:
-    #            action: create
-    #            create-target:  create.sql
-    #            drop-target:  drop.sql
+
+      javax:
+        persistence:
+          sharedCache:
+            mode: ALL
+
     hibernate:
       naming.physical-strategy:  org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: validate
@@ -110,5 +112,5 @@ springdoc:
 
 checkversion:
   crud-users-info:
-    ssn: "0079993141-0013376071-2050393989-2050018614"
+    ssn: "0079993141-0013376071-2050393989-2050018614-0082544611"
     userId: "158"

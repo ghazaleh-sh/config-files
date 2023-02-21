@@ -19,7 +19,7 @@ spring:
           uri: http://push-notification-api:9080
           predicates:
             - Path=${v1API}/api/push-notification/**
-            - Method=POST
+            - Method=POST,PUT
         #            - Header=Authorization, Basic [0-9a-zA-Z-.]*
 
         - id: check-version
@@ -34,6 +34,13 @@ spring:
             - Path=${v1API}/remote-config/resources/**
             - Method=GET
 
+        - id: car-toll
+          uri: http://cartollservices:8514
+          predicates:
+            - Path=${v1API}/car-toll-api/resources/**
+            - Method=GET,POST,PUT,DELETE
+
+
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
@@ -42,7 +49,7 @@ scopes:
   push-notification-secure: "customer-super"
 
 permit:
-  routes: "/hambaam-gateway/resources/remote-config/**;/hambaam-gateway/resources/check-version-api/**"
+  routes: "/hambaam-gateway/resources/remote-config/**;/hambaam-gateway/resources/check-version-api/**;/hambaam-gateway/resources/car-toll-api/**"
 
 logging:
   level:
