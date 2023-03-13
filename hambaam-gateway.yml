@@ -35,7 +35,7 @@ spring:
             - Method=GET
 
         - id: car-toll
-          uri: http://cartollservices:8514
+          uri: http://car-toll:8514
           predicates:
             - Path=${v1API}/car-toll-api/resources/**
             - Method=GET,POST,PUT,DELETE

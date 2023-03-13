@@ -1,0 +1,119 @@
+###############################__NOTICE_API_QA__###############################
+
+v1API:  /resources
+server:
+  port: 8519
+  servlet:
+    context-path: /notice-api
+
+#  forward-headers-strategy: framework
+
+  ###############################__DATABASE
+
+spring:
+  webflux:
+    base-path: /notice-api
+#    maximum number of concurrent connections that the server can handle.
+    server:
+      max-connections: 100
+  profiles:
+    include:
+      security
+  data:
+    mongodb:
+      authentication-database: ${db.database}
+      username: ${db.username}
+      password: ${db.password}
+      database: ${db.database}
+      port: ${db.port}
+      host: ${db.host}
+
+  ###############################__REACTIVE KAFKA
+  kafka:
+    bootstrap-servers: localhost:9092
+#    properties:
+#      spring:
+#        json:
+#          trusted:
+#            packages: *
+    consumer:
+      #are the initial servers you connect to when establishing connection to Kafka. These servers reveal the full set of brokers available on the cluster
+      bootstrap-servers: localhost:9092
+      #Every Kafka consumer belongs to a consumer group, grouped together by the consumer’s group.id. They will be assigned to topic partitions(1 consumer to n partitions)
+      #set single group-id because we are working on handling a single client(e.g. mobile)
+      group-id: notice_consumer_group_id
+      #defines how a consumer should behave when consuming from a topic partition when there is no initial offset.
+      #The decision on whether to consume from the beginning of a topic partition(earliest) or to only consume new messages when there is no initial offset(latest-is default) and throw an exception if no offset present for consumer group
+      #will result in all events from the beginning of the topic partitions it is assigned to being consumed
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ir.co.sadad.noticeapi.dtos.serializes.KafkaValueDeserializer
+      # json deserializer config
+      properties:
+        spring:
+          json:
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: ir.co.sadad.noticeapi.dtos.SendSingleNoticeReqDto
+    producer:
+      #a topic partition could contain many millions of messages
+      topic: noticeTopic
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: ir.co.sadad.noticeapi.dtos.serializes.CustomSerializer
+      acks: all
+
+###############################__Metrics_And_Monitoring
+management:
+  health.redis.enabled: false
+  info.git.mode: full
+  endpoint:
+    health.show-details: always
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints:
+    enabled-by-default: true
+    jmx.exposure.exclude: '*'
+    web.exposure.include: '*'
+  metrics:
+    enable:
+      jvm: true
+      root: true
+    export.prometheus.enabled: true
+
+
+###############################__LOGS
+logging:
+  level:
+    root: ${log.level}
+    hibernate: ${log.level}
+    org.hibernate: ${log.level}
+    org:
+      hibernate:
+        SQL: ${log.level}
+        type.descriptor.sql.BasicBinder: ${log.level}
+      springframework:
+        boot.autoconfigure: ${log.level}
+        web: ${log.level}
+        web.reactive.function.client.ExchangeFunctions: ${log.level}
+      apache.http: ${log.level}
+      zaando.logbook: ${log.level}
+    net.guides: ${log.level}
+    reactor.netty.http.client.HttpClient: ${log.level}
+    io.swagger.models.parameters.AbstractSerializableParameter: ${log.level}
+    tomcat: ${log.level}
+
+
+###############################__CONFIGS
+
+secretKeyLocation: /opt/security/notice-api
+
+springdoc:
+  swagger-ui:
+    path: /api.html
+
+
+

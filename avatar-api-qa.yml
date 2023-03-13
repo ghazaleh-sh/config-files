@@ -30,7 +30,12 @@ file-storage:
   base_url: ${minio.base_url}
   access_key: ${minio.access_key}
   secret_key: ${minio.secret_key}
-  bucket: "default-avatar"
+  buckets:
+    - "default-avatar"
+    - "hdpi"
+    - "xhdpi"
+    - "xxhdpi"
+    - "thumb"
   port: ${minio.port}
   secure: false
 

@@ -47,6 +47,14 @@ spring:
             - Path=${v1API}/notice-api/resources/**
             - Method=GET,POST,PUT
 
+
+#        - id: openapi
+#          uri: http://localhost:7502
+#          predicates:
+#            - Path=/v3/api-docs/**
+#          filters:
+#              - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
@@ -72,3 +80,44 @@ management:
     web:
       exposure:
         include: gateway
+
+
+#
+#springdoc:
+#  enable-native-support: true
+#  api-docs:
+#    groups:
+#      enabled: true
+#    enabled: true
+#  group-configs:
+#    - group: api-gateway
+#      packages-to-scan:
+#        - dev.kambei.apigateway
+#      display-name: API Gateway
+#    - group: notice-api
+#      paths-to-match:
+#        - /notice-api/**
+#      display-name: notice api
+#  swagger-ui:
+#    config-url: /v3/api-docs/swagger-config
+#    url: /v3/api-docs
+#    urls:
+#      - url: /v3/api-docs
+#        name: API Gateway
+#      - url: /notice-api/v3/api-docs
+#        name: notice api
+#
+################################__SSO
+#bmi.oauth2.excluded-urls: /swagger-ui/**:*,
+#  /v3/api-docs/**:*,
+#  /notice-api/api.html:*,
+#  /notice-api/v3/api-docs:*,
+#  /api.html:*,
+#  /v3/**:*,
+#  /h2/**:*,
+#  /swagger-ui.html:*,
+#  /webjars/**:*,
+#  /v2/**:*,
+#  /swagger-resources/**:*,
+#  /actuator/**:*,
+#  /trace/**:*
