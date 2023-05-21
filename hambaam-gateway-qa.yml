@@ -47,6 +47,11 @@ spring:
             - Path=${v1API}/notice-api/resources/**
             - Method=GET,POST,PUT
 
+        - id: avatar-api
+          uri: http://avatar-api-srv:8516
+          predicates:
+            - Path=${v1API}/avatar-api/resources/**
+            - Method=GET,POST,PUT,DELETE
 
 #        - id: openapi
 #          uri: http://localhost:7502
@@ -63,7 +68,7 @@ scopes:
   push-notification-secure: "customer-super"
 
 permit:
-  routes: "/hambaam-gateway/resources/remote-config/**;/hambaam-gateway/resources/check-version-api/**;/hambaam-gateway/resources/car-toll-api/**"
+  routes: "/hambaam-gateway/resources/remote-config/**;/hambaam-gateway/resources/check-version-api/**;/hambaam-gateway/resources/car-toll-api/**;/hambaam-gateway/resources/avatar-api/**"
 
 
 logging:
@@ -78,6 +83,7 @@ management:
       enabled: true
   endpoints:
     web:
+      base-path: /
       exposure:
         include: gateway
 

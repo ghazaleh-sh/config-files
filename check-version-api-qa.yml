@@ -31,53 +31,64 @@ management:
 #
 ###############################__Database
 spring:
+  profiles:
+    include:
+      security
   datasource:
     driverClassName:  com.ibm.db2.jcc.DB2Driver
 #    initialization-mode: always
-    username: db2inst1
-    password: Aa123456
-    url: jdbc:db2://192.168.52.129:50000/ebanking
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
   #
   #
   ###############################__Spring JPA
-  data:
-    jpa.repositories:
-      enabled: true
-      bootstrap-mode: lazy # for Prod Profile Set default
+#  data:
+#    jpa.repositories:
+#      enabled: true
+#      bootstrap-mode: lazy # for Prod Profile Set default
   jpa:
-    database-platform: org.hibernate.dialect.DB2Dialect
-    generate-ddl: true
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
     properties:
       hibernate:
-        javax:
-          cache:
-            provider: org.ehcache.jsr107.EhcacheCachingProvider
         cache:
-          use_second_level_cache: true
-          region_prefix: dd_hibernate
-          region:
-            #required - classpath to cache region factory. for hibernate>=5.3: org.hibernate.cache.jcache.JCacheRegionFactory /org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+          use_second_level_cache: false
+        dialect: org.hibernate.dialect.DB2Dialect
+        format_sql: true
+        default_schema: ${db.default_schema}
+#        javax:
+#          cache:
+#            provider: org.ehcache.jsr107.EhcacheCachingProvider
+#            missing_cache_strategy: create
+#        cache:
+#          use_second_level_cache: true
+#          region_prefix: dd_hibernate
+#          region:
+#            #required - classpath to cache region factory. for hibernate>=5.3: org.hibernate.cache.jcache.JCacheRegionFactory /org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+#            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
-        hbm2ddl:
-          auto: none
-        org.hibernate.flushMode: ALWAYS
+#        hbm2ddl:
+#          auto: none
+#        org.hibernate.flushMode: ALWAYS
 
         ###############################__Hibernate
         #spring.business.properties.hibernate.default_schema = dev
-        dialect:  org.hibernate.dialect.DB2Dialect
-        default_schema: BAMPAY_REGISTRATION
-        id.new_generator_mappings:  false
-        show-sql: true
-        format_sql: true
-        generate_statistics:  true
-        jdbc.batch_size:  100
-        order_inserts:  true
-      javax:
-        persistence:
-          sharedCache:
-            #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
-            mode: ALL
+#        dialect:  org.hibernate.dialect.DB2Dialect
+#        default_schema: BAMPAY_REGISTRATION
+#        id.new_generator_mappings:  false
+#        show-sql: true
+#        format_sql: true
+#        generate_statistics:  true
+#        jdbc.batch_size:  100
+#        order_inserts:  true
+#      javax:
+#        persistence:
+#          sharedCache:
+#            #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+#            mode: ALL
 #      javax:
 #        persistence.schema-generation:
 #          create-source:  metadata
@@ -86,9 +97,9 @@ spring:
 #            action: create
 #            create-target:  create.sql
 #            drop-target:  drop.sql
-    hibernate:
-      naming.physical-strategy:  org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: validate
+#    hibernate:
+#      naming.physical-strategy:  org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      ddl-auto: validate
   #
   #
   ###############################__Logging

@@ -1,0 +1,18 @@
+###############################__REMOTE_CONFIF_security__###############################
+#
+#
+db:
+  url: jdbc:db2://192.168.97.134:50000/BMI_API
+  username: db2inst1
+  password: 123456
+  default_schema: db2inst1
+
+log:
+  level: info
+
+minio:
+  base_url: "http://192.168.53.73:9002"
+  access_key: "baam"
+  secret_key: "P@ssw0rd"
+
+

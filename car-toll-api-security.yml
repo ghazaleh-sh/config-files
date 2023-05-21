@@ -8,7 +8,7 @@ db:
 
 
 log:
-  level: warn
+  level: info
 
 
 payment:

@@ -1,6 +1,6 @@
 ###############################__CAR_TOLL_API_QA__###############################
 
-v1API:  /resources
+v1API: /resources
 server:
   port: 8514
   servlet:
@@ -39,7 +39,10 @@ management:
   endpoints:
     enabled-by-default: true
     jmx.exposure.exclude: '*'
-    web.exposure.include: '*'
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
   metrics:
     enable:
       jvm: true
@@ -104,7 +107,7 @@ payment:
     terminal-id: ${payment.terminal-id}
     amount: 52000
     instructed-currency: "IRR"
-    reverse-path : ${payment.base_url}/services/rest/api/payment/reverse
+    reverse-path: ${payment.base_url}/services/rest/api/payment/reverse
     client_id: ${payment.client-id}
     client_sec: ${payment.client-sec}
     sso_path: ${otp.base_url}/identity/oauth2/auth/token
@@ -118,54 +121,16 @@ sadad_psp_naji:
   violation_list: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-list
   violation_aggregation: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-aggregation
   violation_image: ${sadad_psp.base_url}/api/v1/sadadnaji/Inquiry/vehicleviolation-photo
+  violation_vehicle_receipt: ${sadad_psp.base_url}/api/v1/sadadnaji/Payment/VehicleReceipt
   access_token: ${sadad_psp.base_url}/api/v1/auth/token
   user_name: "sadad"
   password: "s@DAd"
   orgName: "sco"
   client_id: "sadadClient"
-  client_secret : "97c252c5a7a942c19cd13dca57bc3523ee6fb02cb92b431daef13863c7d40868"
-  check_shahkar : false
-
-
-###############################__COMMENTS
-
-#simorq:
-#  base:
-#    url: https://testsetplus.stts.ir
-#  authentication:
-#    path: /token
-#    username: "sadad"
-#    password: "&S@aADd@D&"
-#    grant_type: password
-#    client_id: ORGAN
-#    client_secret: OrganSecret
-#  summary:
-#    path: /vsms/api/Carbill/FreewayTollsSummary?PlateNo=
-#  payToll:
-#    path: /vsms/api/Carbill/PayFreewayToll
-#  payTolls:
-#    path: /vsms/api/Carbill/PayFreewayTolls
-#
-#sadad:
-#  psp:
-#    base-url: https://sadad.shaparak.ir/api/v0
-#    payment:
-#      init-address: /Request/PaymentRequest
-#      verify-address: /Advice/Verify
-#    merchant-id: "000000140331692"
-#    terminal-id: 24056544
-#    return-url: "www.sample.com/returnedPage"
-#    tripleDesKey: hFI5UOwh9PUDbItN4k8/AacrnC5nTrk2
-#
-#neowallet:
-#  trusted-payment:
-#    url: http://neo-wallet-api:9085/api/bmi-bam-wallet-api/v0/trusted-payments
-#    to-user-id: "60379900000010008466400204"
-#
-#
-#props:
-#  rabbit:
-#    host: rabbit-srv
-#    user: admin
-#    password: aDMeEn
+  client_secret: "97c252c5a7a942c19cd13dca57bc3523ee6fb02cb92b431daef13863c7d40868"
+  check_shahkar: false
+  terminal_no: "6676447"
+  bank_code: "200"
+  branch_code: "102"
+  device_type: 14
 

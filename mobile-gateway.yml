@@ -1,0 +1,188 @@
+server:
+  port: 7501
+
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  routes:
+    tx-history:
+      path: /tx-history/**
+      serviceId: tx-history
+      stripPrefix: false
+    card-integration:
+      path: /card-integration/**
+      serviceId: card-integration
+      stripPrefix: false
+    wallet-integration:
+      path: /wallet-integration/**
+      serviceId: wallet-integration
+      stripPrefix: false
+    invoice-integration:
+      path: /invoice-integration/**
+      serviceId: invoice-integration
+      stripPrefix: false
+    card-mng-integration:
+      path: /card-mng-integration/**
+      serviceId: card-mng-integration
+      stripPrefix: false
+    wallet-neo-integration:
+      path: /wallet-api-neobaam-integration/**
+      serviceId: wallet-neo-integration
+      stripPrefix: false
+    users-integration:
+      path: /users-integration/**
+      serviceId: users-integration
+      stripPrefix: false
+    psp-invoice-integration:
+      path: /psp-invoice-integration/**
+      serviceId: psp-invoice-integration
+      stripPrefix: false
+    psp-charge-integration:
+      path: /psp-charge-integration/**
+      serviceId: psp-charge-integration
+      stripPrefix: false
+    charge-payment:
+      path: /charge-payment/**
+      serviceId: charge-payment
+      stripPrefix: false
+    contact-api:
+      path: /contact-api/**
+      serviceId: contact-api
+      stripPrefix: false
+    car-toll-api:
+      path: /car-toll-api/**
+      serviceId: car-toll-api
+      stripPrefix: false
+    bourse-integration:
+      path: /bourse-integration/**
+      serviceId: bourse-integration
+      stripPrefix: false
+    psp-payment-gateway:
+      path: /psp-payment-gateway/**
+      serviceId: psp-payment-gateway
+      stripPrefix: false
+    refresh-token:
+      path: /refresh-token/**
+      url: http://sso2:9443/session-manager/devices/refreshToken
+    push-notification:
+      path: /api/push-notification/**
+      serviceId: push-notification
+      stripPrefix: false
+    registration-version:
+      path: /bampay-registration/resources/version/**
+      serviceId: registration-version
+      stripPrefix: false
+    remote-config:
+      path: /remote-config/**
+      serviceId: remote-config
+      stripPrefix: false
+    check-version-api:
+      path: /check-version-api/resources/version/**
+      serviceId: check-version-api
+      stripPrefix: false
+
+  prefix: /services/api/gateway/
+
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+  eureka:
+    enabled: false
+
+tx-history:
+  ribbon:
+    listOfServers: http://tx-history-srv:8502/tx-history
+
+card-integration:
+  ribbon:
+    listOfServers: http://card-integration-srv:8503/card-integration
+
+wallet-integration:
+  ribbon:
+    listOfServers: http://wallet-integration-srv:8504/wallet-integration
+
+invoice-integration:
+  ribbon:
+    listOfServers: http://invoice-integration-srv:8508/invoice-integration
+
+card-mng-integration:
+  ribbon:
+    listOfServers: http://card-mng-integration-srv:8506/card-mng-integration
+
+wallet-neo-integration:
+  ribbon:
+    listOfServers: http://neo-wallet-integration:8507/wallet-api-neobaam-integration
+
+users-integration:
+  ribbon:
+    listOfServers: http://users-integration-srv:8509/users-integration
+
+psp-invoice-integration:
+  ribbon:
+    listOfServers: http://psp-invoice-integration-srv:9089/psp-invoice-integration
+
+psp-charge-integration:
+  ribbon:
+    listOfServers: http://psp-charge-integration-srv:9088/psp-charge-integration
+
+charge-payment:
+  ribbon:
+    listOfServers: http://charge-payment-srv:8512/charge-payment
+
+contact-api:
+  ribbon:
+    listOfServers: http://contact-api-srv:8513/contact-api
+
+car-toll-api:
+  ribbon:
+    listOfServers: http://car-toll-api-srv:8514/car-toll-api
+
+bourse-integration:
+  ribbon:
+    listOfServers: http://bourse-integration-srv:8515/bourse-integration
+
+psp-payment-gateway:
+  ribbon:
+    listOfServers: http://psp-payment-gateway-srv:9080/psp-payment-gateway/resources
+#  remote-url: 0:0:0:0:0:0:0:1
+
+push-notification:
+  ribbon:
+    listOfServers: http://push-notification-api:9080/api/push-notification
+
+registration-version:
+  ribbon:
+    listOfServers: http://neobaam-srv:9080/bampay-registration/resources/version
+
+remote-config:
+  ribbon:
+    listOfServers: http://remote-config-srv:8518/remote-config/resources
+
+check-version-api:
+  ribbon:
+    listOfServers: http://check-version:8092/check-version-api/resources/version
+
+
+sec:
+  scopes:
+    tx-history: customer-super
+    card-integration: customer-super svc-mgmt-card-acc-num-pref
+    wallet-integration: customer-super 
+    invoice-integration: customer-super sam-ewallet-transaction-payment sam-ewallet-transaction-inquiry # card-group-inb-bi-acc card-group-inb-bp-acc
+    card-mng-integration: customer-super card-group-cms-lic-nid
+    wallet-neo-integration: customer-super
+#    sam-ewallet-transaction-issue sam-ewallet-transaction-payment sam-ewallet-transaction-inquiry sam-ewallet-transaction-debit sam-ewallet-transaction-credit sam-ewallet-transaction-cash
+    users-integration: customer-super baam-file-storage
+    charge-payment: customer-super sam-ewallet-transaction-payment
+    contact-api: customer-super baam-file-storage
+    car-toll-api: customer-super
+    bourse-integration: customer-super
+    psp-payment-gateway: customer-super
+    push-notification: customer-super hambam-push-notification-secure
+    registration-version: customer-super
+    remote-config: customer-super
+    check-version-api: customer-super
+#    sam-ewallet-transaction-credit ipg-payment-verify
+  ticket-verification-service-url: http://sso2:9443/session-manager/devices/verify
+  token-service-url: http://sso2:9443/identity/oauth2/auth/token
+  token-service-authorization: Basic a2V5OnNlY3JldA==
+  token-temporary: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJncmFudCI6IkNMSUVOVCIsImlzcyI6Imh0dHA6Ly9hcGkuYm1pLmlyL3NlY3VyaXR5IiwiYXVkIjoia2V5IiwiZXhwIjoxNjM5Mzc1MzUzNTY5LCJuYmYiOjE2MzkyODg5NTM1NjksInJvbGUiOiIiLCJzZXJpYWwiOiJhOTU4ZmY4Ny05ZTM2LTMxZDMtODI3MS1lYzcxNjA2N2YyYTAiLCJzc24iOiIxMjMiLCJjbGllbnRfaWQiOiIxMjMiLCJzY29wZXMiOlsiaXBnLXBheW1lbnQtdmVyZml5IiwiY3VzdG9tZXItc3VwZXIiXX0=.Sau99iIUUwVASkjNPXn8KPUk1xutse1LWRFYyZAKyRg

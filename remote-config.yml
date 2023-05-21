@@ -1,17 +1,18 @@
-###############################__check-version-api__###############################
+###############################__REMOTE-CONFIG_###############################
 #
 #
 ###############################__Context
 v1API:  /resources
-
 server:
-  port: 8092
+  port: 8518
   servlet:
-    context-path: /check-version-api
+    context-path: /remote-config
 #
 #
 ###############################__Metrics_And_Monitoring
 management:
+  defaults:
+    enabled: false
   health.redis.enabled: false
   info.git.mode: full
   endpoint:
@@ -28,20 +29,20 @@ management:
       root: true
     export.prometheus.enabled: true
 
-#
 ###############################__Database
+
+
 spring:
   profiles:
     include:
       security
+  application:
+    name: remote-config
   datasource:
-    driverClassName:  com.ibm.db2.jcc.DB2Driver
+    url: ${db.url}
     username: ${db.username}
     password: ${db.password}
-    url: ${db.url}
-  #
-  #
-  ###############################__Spring JPA
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
   jpa:
     show-sql: false
     open-in-view: false
@@ -49,28 +50,29 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        cache:
-          use_second_level_cache: false
         dialect: org.hibernate.dialect.DB2Dialect
         format_sql: true
         default_schema: ${db.default_schema}
-  #
-  #
-  ###############################__Logging
+  minio:
+    url: ${minio.base_url}
+    bucket: remote
+    access-key: ${minio.access_key}
+    secret-key: ${minio.secret_key}
+
 logging:
   level:
-    root:  ${log.level}
-    hibernate:  ${log.level}
-    org.hibernate:  ${log.level}
+    root: ${log.level}
+    hibernate: ${log.level}
+    org.hibernate: ${log.level}
     org:
       hibernate:
         SQL: ${log.level}
         type.descriptor.sql.BasicBinder: ${log.level}
       springframework:
-        boot.autoconfigure:  ${log.level}
-        web:  ${log.level}
+        boot.autoconfigure: ${log.level}
+        web: ${log.level}
         web.reactive.function.client.ExchangeFunctions: ${log.level}
-      apache.http:  ${log.level}
+      apache.http: ${log.level}
       zaando.logbook: ${log.level}
     net.guides: ${log.level}
     reactor.netty.http.client.HttpClient: ${log.level}
@@ -80,9 +82,47 @@ logging:
 springdoc:
   swagger-ui:
     path: /api.html
+#
+#
+#
+#
+###############################__SSO
+bmi.oauth2.excluded-urls: /remote-config/swagger-ui/**:*,
+  /swagger-ui/**:*,
+  /remote-config/api.html:*,
+  /api.html:*,
+  /remote-config/v3/**:*,
+  /v3/**:*,
+  /h2/**:*,
+  /swagger-ui.html:*,
+  /webjars/**:*,
+  /v2/**:*,
+  /swagger-resources/**:*,
+  /actuator/**:*,
+  /trace/**:*,
+#
+###############################__Configs
+file-storage:
+  base_url: ${minio.base_url}
+  access_key: ${minio.access_key}
+  secret_key: ${minio.secret_key}
+  bucket: "remote"
+  port: 9002
+  secure: false
 
 
-checkversion:
-  crud-users-info:
-    ssn: "0079993141-0013376071-2050393989-2050018614-0082544611"
-    userId: "158"
+services:
+  users:
+    - "0079993141"
+    - "0013376071"
+    - "2050393989"
+    - "2050018614"
+    - "0078898811"
+    - "0386360634"
+    - "1467511031"
+    - "0451492595"
+    - "0082544611"
+    - "0083039031"
+
+secretKeyLocation: /opt/configs/remote-config
+

@@ -1,42 +1,18 @@
-###############################__AVATAR_API_QA__###############################
+###############################__NOTICE_API_JOB_QA__###############################
 
 v1API:  /resources
 server:
-  port: 8516
-  servlet:
-    context-path: /avatar-api
-  http2:
-    enabled: true
-
-###############################__DATABASE
+  port: 8520
 
 spring:
   webflux:
-    base-path: /avatar-api
+    base-path: /notice-api-job
+  #    maximum number of concurrent connections that the server can handle.
+  #    server:
+  #      max-connections: 100
   profiles:
     include:
       security
-  data:
-    mongodb:
-      authentication-database: ${db.database}
-      username: ${db.username}
-      password: ${db.password}
-      database: ${db.database}
-      port: ${db.port}
-      host: ${db.host}
-
-###############################__Configs
-file-storage:
-  base_url: ${minio.base_url}
-  access_key: ${minio.access_key}
-  secret_key: ${minio.secret_key}
-  buckets:
-    - "default-avatar"
-    - "full-size-avatar"
-    - "thumbnail-avatar"
-  port: ${minio.port}
-  secure: false
-
 
 ###############################__Metrics_And_Monitoring
 management:
@@ -78,29 +54,13 @@ logging:
     io.swagger.models.parameters.AbstractSerializableParameter: ${log.level}
     tomcat: ${log.level}
 
-###############################__SSO
-bmi.oauth2.excluded-urls: /avatar-api/swagger-ui/**:*,
-  /swagger-ui/**:*,
-  /avatar-api/api.html:*,
-  /api.html:*,
-  /avatar-api/v3/**:*,
-  /v3/**:*,
-  /h2/**:*,
-  /swagger-ui.html:*,
-  /webjars/**:*,
-  /v2/**:*,
-  /swagger-resources/**:*,
-  /actuator/**:*,
-  /trace/**:*,
+
 ###############################__CONFIGS
 
-secretKeyLocation: /opt/security/avatar-api
-
-profile:
-  url: https://my.bmi.ir/portalserver/services/rest/profile/info
-
 springdoc:
-  show-actuator: true
   swagger-ui:
     path: /api.html
 
+notice:
+  job:
+    path: ${notice-api.delete.path}

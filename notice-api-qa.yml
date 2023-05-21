@@ -14,8 +14,8 @@ spring:
   webflux:
     base-path: /notice-api
 #    maximum number of concurrent connections that the server can handle.
-    server:
-      max-connections: 100
+#    server:
+#      max-connections: 100
   profiles:
     include:
       security
@@ -114,6 +114,11 @@ secretKeyLocation: /opt/security/notice-api
 springdoc:
   swagger-ui:
     path: /api.html
+
+notifications:
+  page-size: 20
+  job:
+    max-count: 500
 
 
 
